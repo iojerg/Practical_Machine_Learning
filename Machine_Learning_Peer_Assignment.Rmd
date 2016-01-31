@@ -17,26 +17,19 @@ set.seed(33233)
 
 
 train <- read.csv("train.csv")
-test <- read.csv("test.csv")
+validation <- read.csv("test.csv")
 obs_train <- dim(train)[1]
 var_train <- dim(train)[2]
-exercise <- train
-validation <- test
 ```
 
-The data sets consist in two csv files:
-```{r}
-print(dim(train))
-print(dim(test))
-```
-The test set contains 20 observations and it is used to validate the model, we will call it *validation set*.  
-The train set contains `r print(obs_train)` observations and `r print(var_train)` variables. It is quite large data set, it will be split in two subsets, one used for training the model (70%) and the other for testing it (30%) and assess the model performance with new inputs.  
-The variable to be predicted is a factor variable called **classe** with 5 possible values: A, B, C, D or E, and represent as said, the quality of the activities they perform.
+The data sets consist in two csv files. The Test file contains 20 observations and 159 variables and it is used to validate the model, we will call it *validation set*.  
+The train file contains 19622 observations and 160 variables. It is quite large data set, it will be split in two subsets, one used for creating the model (70%) and the other for testing it (30%) and assess the model performance with new inputs.  
+The variable to be predicted is a factor variable called **classe** with 5 possible values: A, B, C, D or E, and represent as said, the quality of the activities each person performs.
 
 ```{r}
-inTrain <- createDataPartition(exercise$classe, p = 0.7, list = F)
-training <- exercise[inTrain,]
-testing <- exercise[-inTrain,]
+inTrain <- createDataPartition(train$classe, p = 0.7, list = F)
+training <- train[inTrain,]
+testing <- train[-inTrain,]
 ```
 
 ### Data Set Reduction  
@@ -44,11 +37,10 @@ If we use the function summary and we apply it to the data sets, we will find ou
 An easy way to perform this, is to take a look to the validation subset (test set originally). All the variables containing Na's or DIV0! values are labeled with the variable class "logical" with all values set up to Na. The remaining relevant columns will be taken and will subset the training data set.  
 In addition to this, there are 5 columns that do not aggregate any value to the model, they are:
 ```{r}
-names(exercise[,c(1,3:6)])
+names(train[,c(1,3:6)])
 ```
 
-
-We now have a reduced data set from the original.
+Next code is for reducing the data set by eliminating unneeded variables
 ```{r}
 relevant_columns <- as.vector(sapply(validation, class) != "logical")
 relevant_columns[c(1,3:6)] <- F
@@ -58,8 +50,9 @@ testing_red <- testing[,relevant_columns]
 
 n_var <- dim(training_red)[2] - 1 # We substract the "classe" column
 ```
+We now have a reduced data set from the original.  
 
-The number of predictors in the reduced data set is **`r n_var`**. Now, we can build the model using as an outcome the variable classe and the remaining variables as predictors.  
+The number of predictors in the reduced data set is **54**. Now, we can build the model using as an outcome the variable classe and the remaining variables as predictors.  
 
 
 # Results  
@@ -83,14 +76,14 @@ Once tested against the test set, we obtain the next confusion matrix.
 ```{r}
 print(confusionMatrix)
 ```
-The accuracy of the model against the test set, calculated as the true predicted values vs. all predicted values, is **`r accuracy`**, which means it is a very good prediction model.  
+The accuracy of the model against the test set, calculated as the true predicted values vs. all predicted values, is **99.76 %**, which means it is a very good prediction model.  
 When compared to the expected accuracy, both values are very closed, so we have had a very good estimation of the accurary of the model:
 Expected: **99.67%**  
-Actual: **`r accuracy`**
+Actual: **99.76 %**
 
 
 # Conclusions  
-We can conclude that random forest algorithm has performed really well to predict the activity quality, getting a **`r accuracy`** of accuracy.  
+We can conclude that random forest algorithm has performed really well to predict the activity quality, getting a **99.76 %** of accuracy.  
 The validation test was also tested resulting in a **100%** accuracy.  
 To reduce the number of predictors form 159 to `r n_var` has performed really well decreasing the computing time and obtaining a very high accuracy predicting model.
 
