@@ -59,7 +59,7 @@ testing_red <- testing[,relevant_columns]
 n_var <- dim(training_red)[2] - 1 # We substract the "classe" column
 ```
 
-The number of predictors in the reduced data set is **`r n_var`**. Now, we can build the model using as an outcome the classe and the remaining variables as predictors.  
+The number of predictors in the reduced data set is **`r n_var`**. Now, we can build the model using as an outcome the variable classe and the remaining variables as predictors.  
 
 
 # Results  
@@ -74,9 +74,9 @@ accuracy <- paste(round(sum(testing$classe == sol_rf_red) / dim(testing)[1]*100,
 
 confusionMatrix <- table(testing$classe, sol_rf_red)
 ```
-Recall that random forest algorithms take around 66% of the data to build trees and use the remaining (Out Of Bag samples) to assess the estimate of the error rate for each tree built.
+Recall that random forest algorithms take around 66% of the data to build trees and use the remaining (Out Of Bag samples) to assess the estimate error we expect to have when using model to predict test and/or validation data sets.
 
-For this exercise, we wil not use cross validation, we will assess the accuracy of the model against the test and validation sets.
+The out of bag estimate error is **0.33%** as displyed in appendix. The expected accuracy of the model is 100 - 0.33 = **99.67%**.
 
 Once tested against the test set, we obtain the next confusion matrix.
 
@@ -84,9 +84,20 @@ Once tested against the test set, we obtain the next confusion matrix.
 print(confusionMatrix)
 ```
 The accuracy of the model against the test set, calculated as the true predicted values vs. all predicted values, is **`r accuracy`**, which means it is a very good prediction model.  
+When compared to the expected accuracy, both values are very closed, so we have had a very good estimation of the accurary of the model:
+Expected: **99.67%**  
+Actual: **`r accuracy`**
+
 
 # Conclusions  
 We can conclude that random forest algorithm has performed really well to predict the activity quality, getting a **`r accuracy`** of accuracy.  
 The validation test was also tested resulting in a **100%** accuracy.  
-To reduce the number of predictors form 159 to `r n_var` has performed really well decreasing the computing time and obtaining a very high accuracy.
+To reduce the number of predictors form 159 to `r n_var` has performed really well decreasing the computing time and obtaining a very high accuracy predicting model.
+
+# Appendix
+Random forest model information. Model created with the training data set
+```{r}
+print(fit_rf_red)
+```
+
 

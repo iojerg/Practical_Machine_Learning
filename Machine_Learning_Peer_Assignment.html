@@ -121,7 +121,7 @@ training_red &lt;- training[,relevant_columns]
 testing_red &lt;- testing[,relevant_columns]
 
 n_var &lt;- dim(training_red)[2] - 1 # We substract the &quot;classe&quot; column</code></pre>
-<p>The number of predictors in the reduced data set is <strong>54</strong>. Now, we can build the model using as an outcome the classe and the remaining variables as predictors.</p>
+<p>The number of predictors in the reduced data set is <strong>54</strong>. Now, we can build the model using as an outcome the variable classe and the remaining variables as predictors.</p>
 </div>
 </div>
 <div id="results" class="section level1">
@@ -135,8 +135,8 @@ sol_rf_red &lt;- predict(fit_rf_red, newdata =  testing_red)
 accuracy &lt;- paste(round(sum(testing$classe == sol_rf_red) / dim(testing)[1]*100,2),&quot;%&quot;, sep = &quot; &quot;)
 
 confusionMatrix &lt;- table(testing$classe, sol_rf_red)</code></pre>
-<p>Recall that random forest algorithms take around 66% of the data to build trees and use the remaining (Out Of Bag samples) to assess the estimate of the error rate for each tree built.</p>
-<p>For this exercise, we wil not use cross validation, we will assess the accuracy of the model against the test and validation sets.</p>
+<p>Recall that random forest algorithms take around 66% of the data to build trees and use the remaining (Out Of Bag samples) to assess the estimate error we expect to have when using model to predict test and/or validation data sets.</p>
+<p>The out of bag estimate error is <strong>0.33%</strong> as displyed in appendix. The expected accuracy of the model is 100 - 0.33 = <strong>99.67%</strong>.</p>
 <p>Once tested against the test set, we obtain the next confusion matrix.</p>
 <pre class="r"><code>print(confusionMatrix)</code></pre>
 <pre><code>##    sol_rf_red
@@ -146,13 +146,35 @@ confusionMatrix &lt;- table(testing$classe, sol_rf_red)</code></pre>
 ##   C    0    3 1023    0    0
 ##   D    0    0    2  961    1
 ##   E    0    0    0    2 1080</code></pre>
-<p>The accuracy of the model against the test set, calculated as the true predicted values vs. all predicted values, is <strong>99.76 %</strong>, which means it is a very good prediction model.</p>
+<p>The accuracy of the model against the test set, calculated as the true predicted values vs. all predicted values, is <strong>99.76 %</strong>, which means it is a very good prediction model.<br />
+When compared to the expected accuracy, both values are very closed, so we have had a very good estimation of the accurary of the model: Expected: <strong>99.67%</strong><br />
+Actual: <strong>99.76 %</strong></p>
 </div>
 <div id="conclusions" class="section level1">
 <h1>Conclusions</h1>
 <p>We can conclude that random forest algorithm has performed really well to predict the activity quality, getting a <strong>99.76 %</strong> of accuracy.<br />
 The validation test was also tested resulting in a <strong>100%</strong> accuracy.<br />
-To reduce the number of predictors form 159 to 54 has performed really well decreasing the computing time and obtaining a very high accuracy.</p>
+To reduce the number of predictors form 159 to 54 has performed really well decreasing the computing time and obtaining a very high accuracy predicting model.</p>
+</div>
+<div id="appendix" class="section level1">
+<h1>Appendix</h1>
+<p>Random forest model information. Model created with the training data set</p>
+<pre class="r"><code>print(fit_rf_red)</code></pre>
+<pre><code>## 
+## Call:
+##  randomForest(formula = classe ~ ., data = training_red, importance = T,      ntree = 200) 
+##                Type of random forest: classification
+##                      Number of trees: 200
+## No. of variables tried at each split: 7
+## 
+##         OOB estimate of  error rate: 0.33%
+## Confusion matrix:
+##      A    B    C    D    E  class.error
+## A 3905    1    0    0    0 0.0002560164
+## B    5 2649    4    0    0 0.0033860045
+## C    0   11 2382    3    0 0.0058430718
+## D    0    0   17 2233    2 0.0084369449
+## E    0    0    0    3 2522 0.0011881188</code></pre>
 </div>
 
 
