@@ -43,8 +43,8 @@ testing <- exercise[-inTrain,]
 If we use the function summary and we apply it to the data sets, we will find out many variables with more than 97% of their values as Na's or DIV0!. In order to reduce the complexity of the model (decrease computing time) and potentially get a more accurate prediction, we will remove all the variables with these features to create the model.  
 An easy way to perform this, is to take a look to the validation subset (test set originally). All the variables containing Na's or DIV0! values are labeled with the variable class "logical" with all values set up to Na. The remaining relevant columns will be taken and will subset the training data set.  
 In addition to this, there are 5 columns that do not aggregate any value to the model, they are:
-```{r, fig.width = 20, fig.height = 6}
-summary(exercise[,c(1,3:6)])
+```{r}
+names(exercise[,c(1,3:6)])
 ```
 
 

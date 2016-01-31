@@ -96,23 +96,9 @@ testing &lt;- exercise[-inTrain,]</code></pre>
 <p>If we use the function summary and we apply it to the data sets, we will find out many variables with more than 97% of their values as Na’s or DIV0!. In order to reduce the complexity of the model (decrease computing time) and potentially get a more accurate prediction, we will remove all the variables with these features to create the model.<br />
 An easy way to perform this, is to take a look to the validation subset (test set originally). All the variables containing Na’s or DIV0! values are labeled with the variable class “logical” with all values set up to Na. The remaining relevant columns will be taken and will subset the training data set.<br />
 In addition to this, there are 5 columns that do not aggregate any value to the model, they are:</p>
-<pre class="r"><code>summary(exercise[,c(1,3:6)])</code></pre>
-<pre><code>##        X         raw_timestamp_part_1 raw_timestamp_part_2
-##  Min.   :    1   Min.   :1.322e+09    Min.   :   294      
-##  1st Qu.: 4906   1st Qu.:1.323e+09    1st Qu.:252912      
-##  Median : 9812   Median :1.323e+09    Median :496380      
-##  Mean   : 9812   Mean   :1.323e+09    Mean   :500656      
-##  3rd Qu.:14717   3rd Qu.:1.323e+09    3rd Qu.:751891      
-##  Max.   :19622   Max.   :1.323e+09    Max.   :998801      
-##                                                           
-##           cvtd_timestamp  new_window 
-##  28/11/2011 14:14: 1498   no :19216  
-##  05/12/2011 11:24: 1497   yes:  406  
-##  30/11/2011 17:11: 1440              
-##  05/12/2011 11:25: 1425              
-##  02/12/2011 14:57: 1380              
-##  02/12/2011 13:34: 1375              
-##  (Other)         :11007</code></pre>
+<pre class="r"><code>names(exercise[,c(1,3:6)])</code></pre>
+<pre><code>## [1] &quot;X&quot;                    &quot;raw_timestamp_part_1&quot; &quot;raw_timestamp_part_2&quot;
+## [4] &quot;cvtd_timestamp&quot;       &quot;new_window&quot;</code></pre>
 <p>We now have a reduced data set from the original.</p>
 <pre class="r"><code>relevant_columns &lt;- as.vector(sapply(validation, class) != &quot;logical&quot;)
 relevant_columns[c(1,3:6)] &lt;- F
