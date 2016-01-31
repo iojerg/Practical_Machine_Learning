@@ -77,7 +77,7 @@ Once tested against the test set, we obtain the next confusion matrix.
 print(confusionMatrix)
 ```
 The accuracy of the model against the test set, calculated as the true predicted values vs. all predicted values, is **99.76 %**, which means it is a very good prediction model.  
-When compared to the expected accuracy, both values are very closed, so we have had a very good estimation of the accurary of the model:
+When compared to the expected accuracy, both values are very closed, so we have had a very good estimation of the accurary of the model:  
 Expected: **99.67%**  
 Actual: **99.76 %**
 
@@ -85,7 +85,7 @@ Actual: **99.76 %**
 # Conclusions  
 We can conclude that random forest algorithm has performed really well to predict the activity quality, getting a **99.76 %** of accuracy.  
 The validation test was also tested resulting in a **100%** accuracy.  
-To reduce the number of predictors form 159 to `r n_var` has performed really well decreasing the computing time and obtaining a very high accuracy predicting model.
+To reduce the number of predictors form 159 to `r n_var` has performed really well decreasing the computing time and obtaining a very high accuracy prediction model.
 
 # Appendix
 Random forest model information. Model created with the training data set
