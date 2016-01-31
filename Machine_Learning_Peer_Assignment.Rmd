@@ -90,7 +90,3 @@ We can conclude that random forest algorithm has performed really well to predic
 The validation test was also tested resulting in a **100%** accuracy.  
 To reduce the number of predictors form 159 to `r n_var` has performed really well decreasing the computing time and obtaining a very high accuracy.
 
-# Appendix
-```{r}
-fit_rf_red
-```

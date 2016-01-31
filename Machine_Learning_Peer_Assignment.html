@@ -154,25 +154,6 @@ confusionMatrix &lt;- table(testing$classe, sol_rf_red)</code></pre>
 The validation test was also tested resulting in a <strong>100%</strong> accuracy.<br />
 To reduce the number of predictors form 159 to 54 has performed really well decreasing the computing time and obtaining a very high accuracy.</p>
 </div>
-<div id="appendix" class="section level1">
-<h1>Appendix</h1>
-<pre class="r"><code>fit_rf_red</code></pre>
-<pre><code>## 
-## Call:
-##  randomForest(formula = classe ~ ., data = training_red, importance = T,      ntree = 200) 
-##                Type of random forest: classification
-##                      Number of trees: 200
-## No. of variables tried at each split: 7
-## 
-##         OOB estimate of  error rate: 0.33%
-## Confusion matrix:
-##      A    B    C    D    E  class.error
-## A 3905    1    0    0    0 0.0002560164
-## B    5 2649    4    0    0 0.0033860045
-## C    0   11 2382    3    0 0.0058430718
-## D    0    0   17 2233    2 0.0084369449
-## E    0    0    0    3 2522 0.0011881188</code></pre>
-</div>
 
 
 </div>
