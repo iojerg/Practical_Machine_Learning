@@ -26,11 +26,11 @@ validation <- test
 
 The data sets consist in two csv files:
 ```{r}
-dim(train)
-dim(test)
+print(dim(train))
+print(dim(test))
 ```
 The test set contains 20 observations and it is used to validate the model, we will call it *validation set*.  
-The train set contains `r obs_train` observations and `r var_train` variables. It is quite large data set, it will be split in two subsets, one used for training the model (70%) and the other for testing it (30%) and assess the model performance with new inputs.  
+The train set contains `r print(obs_train)` observations and `r print(var_train)` variables. It is quite large data set, it will be split in two subsets, one used for training the model (70%) and the other for testing it (30%) and assess the model performance with new inputs.  
 The variable to be predicted is a factor variable called **classe** with 5 possible values: A, B, C, D or E, and represent as said, the quality of the activities they perform.
 
 ```{r}

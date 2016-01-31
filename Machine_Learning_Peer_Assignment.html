@@ -81,12 +81,12 @@ img {
 <div id="data-processing" class="section level1">
 <h1>Data Processing</h1>
 <p>The data sets consist in two csv files:</p>
-<pre class="r"><code>dim(train)</code></pre>
+<pre class="r"><code>print(dim(train))</code></pre>
 <pre><code>## [1] 19622   160</code></pre>
-<pre class="r"><code>dim(test)</code></pre>
+<pre class="r"><code>print(dim(test))</code></pre>
 <pre><code>## [1]  20 160</code></pre>
 <p>The test set contains 20 observations and it is used to validate the model, we will call it <em>validation set</em>.<br />
-The train set contains 19622 observations and 160 variables. It is quite large data set, it will be split in two subsets, one used for training the model (70%) and the other for testing it (30%) and assess the model performance with new inputs.<br />
+The train set contains observations and variables. It is quite large data set, it will be split in two subsets, one used for training the model (70%) and the other for testing it (30%) and assess the model performance with new inputs.<br />
 The variable to be predicted is a factor variable called <strong>classe</strong> with 5 possible values: A, B, C, D or E, and represent as said, the quality of the activities they perform.</p>
 <pre class="r"><code>inTrain &lt;- createDataPartition(exercise$classe, p = 0.7, list = F)
 training &lt;- exercise[inTrain,]
