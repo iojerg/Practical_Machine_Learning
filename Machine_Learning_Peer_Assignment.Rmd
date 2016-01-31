@@ -1,0 +1,96 @@
+---
+title: "Qualitative Prediction Activities"
+author: "Enrique Ruix"
+date: "31 January 2016"
+output: html_document
+---
+
+# Summary
+The goal in this exercise is to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants in order to assess the quality in the activities they perform. For that, we will use machine learning techniques in R, specifically random forest algorithm. The data has been provided by Groupware.
+
+# Data Processing  
+```{r, echo = FALSE, message = FALSE}
+library(caret)
+library(randomForest)
+library(rpart)
+set.seed(33233)
+
+
+train <- read.csv("train.csv")
+test <- read.csv("test.csv")
+obs_train <- dim(train)[1]
+var_train <- dim(train)[2]
+exercise <- train
+validation <- test
+```
+
+The data sets consist in two csv files:
+```{r}
+dim(train)
+dim(test)
+```
+The test set contains 20 observations and it is used to validate the model, we will call it *validation set*.  
+The train set contains `r obs_train` observations and `r var_train` variables. It is quite large data set, it will be split in two subsets, one used for training the model (70%) and the other for testing it (30%) and assess the model performance with new inputs.  
+The variable to be predicted is a factor variable called **classe** with 5 possible values: A, B, C, D or E, and represent as said, the quality of the activities they perform.
+
+```{r}
+inTrain <- createDataPartition(exercise$classe, p = 0.7, list = F)
+training <- exercise[inTrain,]
+testing <- exercise[-inTrain,]
+```
+
+### Data Set Reduction  
+If we use the function summary and we apply it to the data sets, we will find out many variables with more than 97% of their values as Na's or DIV0!. In order to reduce the complexity of the model (decrease computing time) and potentially get a more accurate prediction, we will remove all the variables with these features to create the model.  
+An easy way to perform this, is to take a look to the validation subset (test set originally). All the variables containing Na's or DIV0! values are labeled with the variable class "logical" with all values set up to Na. The remaining relevant columns will be taken and will subset the training data set.  
+In addition to this, there are 5 columns that do not aggregate any value to the model, they are:
+```{r, fig.width = 20, fig.height = 6}
+summary(exercise[,c(1,3:6)])
+```
+
+
+We now have a reduced data set from the original.
+```{r}
+relevant_columns <- as.vector(sapply(validation, class) != "logical")
+relevant_columns[c(1,3:6)] <- F
+
+training_red <- training[,relevant_columns]
+testing_red <- testing[,relevant_columns]
+
+n_var <- dim(training_red)[2] - 1 # We substract the "classe" column
+```
+
+The number of predictors in the reduced data set is **`r n_var`**. Now, we can build the model using as an outcome the classe and the remaining variables as predictors.  
+
+
+# Results  
+We will use the randomForest function within the randomForest package in R.  
+To reduce the computing time, we will set up the number of trees to 200.
+```{r}
+fit_rf_red <- randomForest(classe ~ ., data = training_red, importance = T, ntree = 200)
+
+sol_rf_red <- predict(fit_rf_red, newdata =  testing_red)
+
+accuracy <- paste(round(sum(testing$classe == sol_rf_red) / dim(testing)[1]*100,2),"%", sep = " ")
+
+confusionMatrix <- table(testing$classe, sol_rf_red)
+```
+Recall that random forest algorithms take around 66% of the data to build trees and use the remaining (Out Of Bag samples) to assess the estimate of the error rate for each tree built.
+
+For this exercise, we wil not use cross validation, we will assess the accuracy of the model against the test and validation sets.
+
+Once tested against the test set, we obtain the next confusion matrix.
+
+```{r}
+print(confusionMatrix)
+```
+The accuracy of the model against the test set, calculated as the true predicted values vs. all predicted values, is **`r accuracy`**, which means it is a very good prediction model.  
+
+# Conclusions  
+We can conclude that random forest algorithm has performed really well to predict the activity quality, getting a **`r accuracy`** of accuracy.  
+The validation test was also tested resulting in a **100%** accuracy.  
+To reduce the number of predictors form 159 to `r n_var` has performed really well decreasing the computing time and obtaining a very high accuracy.
+
+# Appendix
+```{r}
+fit_rf_red
+```
