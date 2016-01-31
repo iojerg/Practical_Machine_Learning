@@ -1,5 +1,5 @@
 ---
-title: "Qualitative Prediction Activities"
+title: "Qualitative Prediction Activities with Random Forest Algorithm"
 author: "Enrique Ruix"
 date: "31 January 2016"
 output: html_document
@@ -85,7 +85,7 @@ Actual: **99.76 %**
 # Conclusions  
 We can conclude that random forest algorithm has performed really well to predict the activity quality, getting a **99.76 %** of accuracy.  
 The validation test was also tested resulting in a **100%** accuracy.  
-To reduce the number of predictors form 159 to `r n_var` has performed really well decreasing the computing time and obtaining a very high accuracy prediction model.
+To reduce the number of predictors form 159 to `54` has performed really well decreasing the computing time and obtaining a very high accuracy prediction model.
 
 # Appendix
 Random forest model information. Model created with the training data set
